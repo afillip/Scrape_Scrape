@@ -1,0 +1,19 @@
+{
+	"name": "node-web-scrape",
+	"version"      : "0.0.1",
+	"description"  : "Scrape le blog.",
+	"main"         : "node.js",
+	"author"       : "Amanda Fillip",
+  "scripts" : {
+    "start": "./node_modules/.bin/nodemon server/milk_link.js --ignore client/"
+  },
+  	"dependencies" : {
+  		"express"  : "latest",
+  		"request"  : "latest",
+      "request-promise" : "latest",
+      "http"     : "latest",
+  		"cheerio"  : "latest",
+      "body-parser" : "latest",
+      "nodemon" : "latest"
+  	}
+}
