@@ -5,7 +5,7 @@
 	"main"         : "node.js",
 	"author"       : "Amanda Fillip",
   "scripts" : {
-    "start": "./node_modules/.bin/nodemon server/milk_link.js --ignore client/"
+    "start": "./node_modules/.bin/nodemon server/main.js --ignore client/"
   },
   	"dependencies" : {
   		"express"  : "latest",

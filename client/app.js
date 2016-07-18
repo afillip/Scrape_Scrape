@@ -29,10 +29,8 @@
 					 	contentType: 'application/json',
 					 	dataType: 'json'
 						}).complete(function(data){
-							var hole = []
 							console.log("client-scrape: ", data.responseJSON)
 							var entries = data.responseJSON
-
 							for(var i=0; i<entries.links.length; i++){
 								$('.linkTable').append(`<tr><td><img src='${entries.images[i]}' width=175 height=175></img></td><td><a href='${entries.links[i]}'>${entries.titles[i]}</a></td></tr>`)
 							}

@@ -2,9 +2,8 @@ var express = require('express'),
 	request = require("request-promise"),
 	bodyParser = require("body-parser"),
 	fs = require('fs'),
-	cheerio = require("cheerio")
-	
-var	app = express();
+	cheerio = require("cheerio"),
+	app = express();
 module.exports = app;
 
  app.use(bodyParser.json());
