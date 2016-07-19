@@ -7,3 +7,12 @@ h1, form{
 	margin-left: 42%;
 }
 
+img{
+	border-radius: 150px;
+	padding: 30px;
+}
+
+a{
+	text-decoration: none;
+}
+
