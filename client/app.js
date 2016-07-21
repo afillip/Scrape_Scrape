@@ -9,7 +9,7 @@
 			}).complete(function(data){
 				var entries = data.responseJSON;
 				console.log("scrape3: ", entries)
-				toList(entries)
+				//toList(entries)
 				$.ajax({
 					url: 'scrape2',
 					type: 'GET',
@@ -18,7 +18,7 @@
 				}).complete(function(data){
 					var entries = data.responseJSON;
 					console.log("scrape2: ", entries)
-					toList(entries)
+					//toList(entries)
 					$.ajax({
 						url: 'scrape',
 						type: 'GET',
@@ -27,7 +27,7 @@
 						}).complete(function(data){
 							console.log("client-scrape: ", data.responseJSON)
 							var entries = data.responseJSON
-							toList(entries)
+							//toList(entries)
 					})
 				})
 

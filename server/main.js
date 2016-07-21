@@ -22,7 +22,8 @@ app.get('/scrape', function(req,res){
 				images: [],
 				titles: [],
 				genres: [],
-				blurbs: []
+				blurbs: [],
+				articles: [],
 			}
 			$(".classic-blog .an-content h2 a").each(function(index, element){
 				entries['links'].push($(element).attr('href'))
@@ -59,7 +60,8 @@ app.get('/scrape2', function(req,res){
 				links: [],
 				images: [],
 				titles: [],
-				blurbs: []
+				blurbs: [],
+				articles: [],
 			}
 			
 			$("#content h2 a").each(function(index,element){
@@ -83,15 +85,16 @@ app.get('/scrape2', function(req,res){
 });
 var url3 = "http://pigeonsandplanes.com/";
 app.get('/scrape3', function(req,res){
-	request(url3, function(error, response, html){
-		if(!error){
-			var $ = cheerio.load(html);
 			var entries = {
 				links: [],
 				titles: [],
 				images: [],
 				blurbs:[],
+				articles: [],
 			};
+	request(url3, function(error, response, html){
+		if(!error){
+			var $ = cheerio.load(html);
 			 $("#home-posts .contentbox a").each(function(index, element){
 			 	entries['links'].push($(element).attr('href'))
 			 })
@@ -104,10 +107,32 @@ app.get('/scrape3', function(req,res){
 			$('#home-posts .contentbox p').each(function(index,element){
 				entries['blurbs'].push(element.children[0].data)
 			})
-			res.send(JSON.stringify(entries));
+
+			var count = 0;
+			for(var i=0;i<entries['links'].length;i++){
+				// console.log("index",i)
+				var last = entries['links'].length
+				 // console.log("last", last,i)
+				request(entries['links'][i], function(error, response, html){
+					if(!error){
+						var $ = cheerio.load(html)
+						$("#main_content p a").each(function(index, element){
+							//console.log("article content", typeof(element.children[0].data))
+							if(element.children[0].data){
+								entries['articles'].push(element.children[0].data)	
+							}
+							count++
+						})
+					}
+					if(count > 60){
+						console.log("last index", last, i)
+						res.send(JSON.stringify(entries));
+					}
+				})
+			}
 		}
 	})
-})
+});
 
 
 
