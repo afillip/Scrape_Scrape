@@ -3,16 +3,25 @@ h1, form{
 }
 
 #noFilter{
-	margin-top: 5%;
-	margin-left: 42%;
+	margin: 20px auto;
+	display: block;
+}
+
+.searchErr{
+	color: red;
+	font-weight: bold;
+	text-align: center;
+	display: none;
 }
 
 img{
 	border-radius: 150px;
-	padding: 30px;
+	margin: 20px;
+	box-shadow: 3px 3px 10px 5px
 }
 
 a{
 	text-decoration: none;
 }
+
 

@@ -46,9 +46,11 @@ var holder = {
 				genres: []
 			}; 
 var genre;
+var found = false; 
  $('.searchMusic').submit(function(e){
  	e.preventDefault()
  	genre = $(".genre").val()
+ 	genre = genre.toLowerCase()
 	$.ajax({
 			url: 'scrape3',
 			type: 'GET',
@@ -97,6 +99,12 @@ function toHolder(entries){
 	}
 }
 
+function lower(text){
+	for(var i =0;i<entries['titles'].length;i++){
+		holder['titles']
+	}
+}
+
 function toList(entries){
 	for(var i=0; i<entries.links.length; i++){
 		$('.linkTable').append(`<tr><td><img src='${entries.images[i]}' width=230 height=230></img></td><td><a href='${entries.links[i]}'>${entries.titles[i]}</a></td></tr>`)
@@ -106,16 +114,23 @@ function toList(entries){
 function toFilteredList(key){
 	for(var i=0; i < holder[key].length; i++){
 		if(holder[key][i]){
-			var link = holder[key][i];
+			var link = holder[key][i].toLowerCase();
 			var substrings = [genre];
 			var length = substrings.length;
 			 while(length--){
 				if(link.indexOf(substrings[length])!=-1){
 					$('.linkTable').append(`<tr><td><img src='${holder.images[i]}' width=200 height=200></img></td><td><a href='${holder.links[i]}'>${holder.titles[i]}</a></td></tr>`)		
-					console.log("found")					 	
+					console.log("found")
+					found = true;					 	
 			 	}
 			}
 		}			
+	}
+	if(!found){
+		$('.searchErr').show()
+	}
+	else{
+		$('.searchErr').hide()
 	}
 }
  
