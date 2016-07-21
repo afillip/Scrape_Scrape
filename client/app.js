@@ -9,7 +9,7 @@
 			}).complete(function(data){
 				var entries = data.responseJSON;
 				console.log("scrape3: ", entries)
-				//toList(entries)
+				toList(entries)
 				$.ajax({
 					url: 'scrape2',
 					type: 'GET',
@@ -18,7 +18,7 @@
 				}).complete(function(data){
 					var entries = data.responseJSON;
 					console.log("scrape2: ", entries)
-					//toList(entries)
+					toList(entries)
 					$.ajax({
 						url: 'scrape',
 						type: 'GET',
@@ -27,7 +27,7 @@
 						}).complete(function(data){
 							console.log("client-scrape: ", data.responseJSON)
 							var entries = data.responseJSON
-							//toList(entries)
+							toList(entries)
 					})
 				})
 
@@ -43,7 +43,8 @@ var holder = {
 				images: [],
 				titles: [],
 				blurbs: [],
-				genres: []
+				genres: [],
+				articles: []
 			}; 
 var genre;
 var found = false; 
@@ -59,43 +60,55 @@ var found = false;
 			}).complete(function(data){
 				 var entries = data.responseJSON;
 				 toHolder(entries)
-				$.ajax({
-					url: 'scrape2',
-					type: 'GET',
-					contentType: 'application/json',
-					dataType: 'json'
-				}).complete(function(data){
-					var entries = data.responseJSON;
-					toHolder(entries)	
-					$.ajax({
-						url: 'scrape',
-						type: 'GET',
-					 	contentType: 'application/json',
-					 	dataType: 'json'
+				 $.ajax({
+				 	url: 'scrape3a',
+				 	type: 'GET',
+				 	contentType: 'application/json',
+				 	dataType: 'json'
+				 	}).complete(function(data){
+				 		var entries = data.responseJSON;
+				 		console.log("articles", entries)
+				 		toHolder(entries)
+						$.ajax({
+							url: 'scrape2',
+							type: 'GET',
+							contentType: 'application/json',
+							dataType: 'json'
 						}).complete(function(data){
-							var entries = data.responseJSON
-							toHolder(entries)
-							for(var k=2;k<entries.genres.length;k+=3){
-									holder['genres'].push(entries.genres[k])	
-							}
-							toFilteredList('blurbs')
-							toFilteredList('genres')
-							toFilteredList('titles')
-							console.log("filter finished")
+							var entries = data.responseJSON;
+							toHolder(entries)	
+							$.ajax({
+								url: 'scrape',
+								type: 'GET',
+							 	contentType: 'application/json',
+							 	dataType: 'json'
+								}).complete(function(data){
+									var entries = data.responseJSON
+									toHolder(entries)
+									for(var k=2;k<entries.genres.length;k+=3){
+											holder['genres'].push(entries.genres[k])	
+									}
+									toFilteredList('blurbs')
+									toFilteredList('genres')
+									toFilteredList('titles')
+									toFilteredList('articles')
+									console.log("filter finished")
+								})
+							})
 					})
-				})
-
 			})
 
 
 	});
 
 function toHolder(entries){
+	console.log("entries", entries)
 	for(var i=0;i<entries['links'].length;i++){
 	 	holder['links'].push(entries.links[i]);
 	 	holder['images'].push(entries.images[i]);
 	 	holder['titles'].push(entries.titles[i]);
 	 	holder['blurbs'].push(entries.blurbs[i]);
+	 	holder['articles'].push(entries.articles[i]);
 	}
 }
 

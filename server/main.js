@@ -83,56 +83,62 @@ app.get('/scrape2', function(req,res){
 		res.send(JSON.stringify(entries))
 	})
 });
+
+
+var entries3 = {
+	links: [],
+	titles: [],
+	images: [],
+	blurbs:[],
+	articles: [],
+};
+
 var url3 = "http://pigeonsandplanes.com/";
 app.get('/scrape3', function(req,res){
-			var entries = {
-				links: [],
-				titles: [],
-				images: [],
-				blurbs:[],
-				articles: [],
-			};
 	request(url3, function(error, response, html){
 		if(!error){
 			var $ = cheerio.load(html);
 			 $("#home-posts .contentbox a").each(function(index, element){
-			 	entries['links'].push($(element).attr('href'))
+			 	entries3['links'].push($(element).attr('href'))
 			 })
 			$("#home-posts h2 a").each(function(index,element){
-				entries['titles'].push(element.children[0].data)
+				entries3['titles'].push(element.children[0].data)
 			})
 			$('#home-posts img').each(function(index,element){
-				entries['images'].push($(element).attr('src'))
+				entries3['images'].push($(element).attr('src'))
 			})
 			$('#home-posts .contentbox p').each(function(index,element){
-				entries['blurbs'].push(element.children[0].data)
+				entries3['blurbs'].push(element.children[0].data)
 			})
+		}
+		res.send(JSON.stringify(entries3))
+	})
+});
 
-			var count = 0;
-			for(var i=0;i<entries['links'].length;i++){
-				// console.log("index",i)
-				var last = entries['links'].length
-				 // console.log("last", last,i)
-				request(entries['links'][i], function(error, response, html){
-					if(!error){
-						var $ = cheerio.load(html)
-						$("#main_content p a").each(function(index, element){
-							//console.log("article content", typeof(element.children[0].data))
-							if(element.children[0].data){
-								entries['articles'].push(element.children[0].data)	
-							}
-							count++
-						})
-					}
-					if(count > 60){
-						console.log("last index", last, i)
-						res.send(JSON.stringify(entries));
+app.get('/scrape3a', function(req,res){
+	var count = 0;
+
+	entries3['links'].map(function(link){
+		request(link,function(error,response,html){
+			if(!error){
+				var $ = cheerio.load(html)
+				$("#main_content ").each(function(index, element){
+					if(element.children[3].children[0]){
+						entries3['articles'].push(new Array(element.children[3].children[0].data))	
+						console.log(element.children[3].children[0].data)
 					}
 				})
 			}
-		}
-	})
-});
+		})
+	})		
+	myfunc = function(){
+		console.log(entries3['articles']);
+		console.log("how many articles?", entries3['articles'].length);
+		console.log("links length",entries3['links'].length);
+		res.send(JSON.stringify(entries3['articles']))
+	}
+	setTimeout(myfunc,1500)
+})
 
 
 
