@@ -1,27 +1,33 @@
 import React from 'react';
 import * as home from '../models/home';
+import Entry from './Entry';
 
 export default class Home extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {
-			links: [],
-			images: [],
-			titles: [],
-			blurbs: []
+			entries: null,
 		}
 	}
 
-	browseAll(){
-		//e.preventDefault()
+	componentWillMount(){
 		home.getMusic()
 			.then((data) => {
-				this.setState({links: data.links})
-				this.setState({images: data.images})
-				this.setState({titles: data.titles})	
-				this.setState({blurbs: data.blurbs})			
-				console.log("home: ", data)
+				this.setState({entries: data})
 			})
+	}
+
+	_browseAll(){
+		//e.preventDefault()
+		return this.state.entries.map((data) => {
+					console.log(data)
+					return <Entry
+					links = {data.link}
+					images = {data.image}
+					titles = {data.title}	
+					blurbs = {data.blurb}
+					/>			
+				})
 	}
 
 	toList(entries){
@@ -35,15 +41,27 @@ export default class Home extends React.Component{
 			<div className="Home">
 
 			<h1> Scrape Scrape </h1>
-			<form className="searchMusic">
-				<h3> What do you want to listen to?</h3>
-				<input className="genre" type="text" name="genre" placeholder="Keyword"/>
-				<button name ="byGenre" type="submit">Browse By Keyword</button>			
-			</form>
-			<button name="noFilter" type="button" onClick = { (e) => {this.browseAll(e)} }>Browse All New Music</button>
-			<h2 className="searchErr"> Search Not Found</h2>
-			<table className="linkTable"></table>
-			{this.state.links.map}
+			{
+			// <form className="searchMusic">
+			// 	<h3> What do you want to listen to?</h3>
+			// 	<input className="genre" type="text" name="genre" placeholder="Keyword"/>
+			// 	<button name ="byGenre" type="submit">Browse By Keyword</button>			
+			// </form>
+			//<h2 className="searchErr"> Search Not Found</h2>
+			}
+			
+			 {this.state.entries ? 
+				this._browseAll()
+			:
+			null
+			}
+			
+			{//(this.state.array){
+			// 	this.state.array.map = function(element, index){
+					
+			// 	}}
+
+			}
 
 
 			</div>
