@@ -15,17 +15,18 @@ export default class Home extends React.Component{
 			.then((data) => {
 				this.setState({entries: data})
 			})
+			console.log(this.state.entries)
 	}
 
 	_browseAll(){
 		//e.preventDefault()
-		return this.state.entries.map((data) => {
-					console.log(data)
+		return this.state.entries.map((data, i) => {
 					return <Entry
 					links = {data.link}
 					images = {data.image}
 					titles = {data.title}	
 					blurbs = {data.blurb}
+					key = {i}
 					/>			
 				})
 	}
@@ -37,35 +38,31 @@ export default class Home extends React.Component{
 	}
 
 	render(){
-		return (
-			<div className="Home">
+		if(this.state.entries){
+			return (
+				<div className="Home">
 
-			<h1> Scrape Scrape </h1>
-			{
-			// <form className="searchMusic">
-			// 	<h3> What do you want to listen to?</h3>
-			// 	<input className="genre" type="text" name="genre" placeholder="Keyword"/>
-			// 	<button name ="byGenre" type="submit">Browse By Keyword</button>			
-			// </form>
-			//<h2 className="searchErr"> Search Not Found</h2>
-			}
-			
-			 {this.state.entries ? 
-				this._browseAll()
-			:
-			null
-			}
-			
-			{//(this.state.array){
-			// 	this.state.array.map = function(element, index){
+					<h1> Scrape Scrape </h1>
+					{
+					// <form className="searchMusic">
+					// 	<h3> What do you want to listen to?</h3>
+					// 	<input className="genre" type="text" name="genre" placeholder="Keyword"/>
+					// 	<button name ="byGenre" type="submit">Browse By Keyword</button>			
+					// </form>
+					//<h2 className="searchErr"> Search Not Found</h2>
+					}
 					
-			// 	}}
 
-			}
-
-
-			</div>
+					{this._browseAll()}
+				</div>
+			)			
+		} else {
+			return (
+				<div className = "load">
+					<h1> Scrape Scrape </h1>
+				</div>
 			)
+		}
 	}
 }
 

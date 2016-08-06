@@ -18,15 +18,15 @@ export default class Entry extends React.Component{
 	render(){
 		return(
 			<div>
-				<table className="linkTable"> 
-					<thead>
-						<tr>
-							<tbody>
+				
+				
+					
+						
 								<img src={this.props.images} width='200px' height='200px'></img>
-							</tbody>
-						</tr>
-					</thead>
-				</table>
+							
+					
+				
+				
 			</div>
 
 		)
